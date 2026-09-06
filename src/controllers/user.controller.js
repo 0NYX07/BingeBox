@@ -26,7 +26,7 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
 
-    const existedUser = user.findOne({
+    const existedUser = await user.findOne({
         $or: [{ username }, { email }]
     })
     if(existedUser){
@@ -34,8 +34,8 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
 
-    const avatarLocalPath = req.files?.avatar[0]?.path
-    const coverImageLocalPath = req.files?.coverImage[0]?.path
+    const avatarLocalPath = req.files?.avatar?.[0]?.path;
+    const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
     if(!avatarLocalPath){
         throw new ApiError(400, "Avater file is required")
     }
@@ -44,7 +44,7 @@ const registerUser = asyncHandler( async (req, res) => {
     const avatar = await uploadOnCloudinary(avatarLocalPath)
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
     if(!avatar){
-        throw new ApiError(400, "Avater file is required")
+        throw new ApiError(400, "Avater link file is required")
     }
 
 
@@ -58,12 +58,12 @@ const registerUser = asyncHandler( async (req, res) => {
     })
 
 
-    const userCreated = await user.findById(user._id).select(
+    const createdUser = await user.findById(User._id).select(
         "-password -refreshToken"
     )
 
 
-    if(!userCreated){
+    if(!createdUser){
         throw new ApiError(500, "Something went wrong while registering the user")
     }
 
