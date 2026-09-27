@@ -1,0 +1,1 @@
+// mongo db uri mei net ke baad / tha usee hataya hai agr baad mei koi dikkat aayi to usse ckeck karna hai 
