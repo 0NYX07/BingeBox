@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { registerUser } from "../controllers/auth.controller.js";
+import { registerUser, loginUser, logoutUser } from "../controllers/auth.controller.js";
 import { upload } from "../middlewares/upload.middleware.js"
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-const registerRouter = Router()
+const authRouter = Router()
 
-registerRouter.route("/register").post(
+authRouter.route("/register").post(
     upload.fields([
         {
             name: "avatar",
@@ -18,4 +19,8 @@ registerRouter.route("/register").post(
     registerUser
 )
 
-export default registerRouter
+authRouter.route("/login").post(loginUser)
+
+authRouter.route("/logout").post(verifyJWT, logoutUser)
+
+export default authRouter

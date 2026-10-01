@@ -15,10 +15,10 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 //routes import
-import registerRouter from "./routes/auth.routes.js"
+import authRouter from "./routes/auth.routes.js"
 
 //routes declaration
-app.use("/api/v1/auth", registerRouter)
+app.use("/api/v1/auth", authRouter)
 //what will happen the url will be hhtps://localhost:8000/api/v1/auth/regiester
 
 export {app}
